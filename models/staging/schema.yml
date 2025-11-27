@@ -1,0 +1,149 @@
+version: 2
+
+sources:
+  - name: bigquery_extracted_data
+    description: 'Contains ecommerce raw data fetched from bigquery via Airbyte'
+    database: dbt
+    schema: bigquery_extracted_data
+    tables:
+      - name: raw_customers
+        description: 'Customers raw data'
+
+      - name: raw_orders
+        description: 'Orders raw data'
+      
+      - name: raw_payments
+        description: 'Payments raw data'
+      
+      - name: raw_products
+        description: 'Products raw data'
+      
+      - name: raw_regions
+        description: 'Regions raw data'
+
+
+models:
+
+  - name: stg__customers
+    description: 'Customers cleaned/transformed data'
+    columns:
+      - name: customer_id
+        description: 'Primary key of the table'
+        tests:
+          - not_null
+          - unique
+      
+      - name: customer_name
+        description: 'Name of the customer'
+        tests:
+          - not_null
+
+      - name: customer_email
+        description: 'Email of the customer'
+        tests:
+          - not_null
+          - unique
+
+      - name: region_id
+        description: 'Id of the region to which this customer belongs to'
+        tests:
+          - not_null
+
+  - name: stg__orders
+    description: 'Orders cleaned/transformed data'
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      
+      - name: customer_id
+        tests:
+          - not_null
+      
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: region_id
+        tests:
+          - not_null
+
+      - name: order_date
+        tests:
+          - not_null
+
+      - name: quantity
+        tests:
+          - is_greater_or_equal_to_zero
+
+      - name: unit_price
+        tests:
+          - is_greater_or_equal_to_zero
+
+      - name: order_status
+        tests:
+          - not_null
+
+  - name: stg__payments
+    description: 'Payments cleaned/transformed data'
+    columns:
+      - name: payment_id
+        tests:
+          - not_null
+          - unique
+      
+      - name: order_id
+        tests:
+          - not_null
+      
+      - name: payment_date
+        tests:
+          - not_null
+
+      - name: payment_method
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['bank transfer', 'paypal', 'credit card', 'debit card', 'card', 'cash']
+
+      - name: amount_paid
+        tests:
+          - is_greater_or_equal_to_zero
+
+  - name: stg__products
+    description: 'Products cleaned/transformed data'
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+      
+      - name: product_name
+        tests:
+          - not_null
+          - unique
+      
+      - name: category
+        tests:
+          - not_null
+
+      - name: price
+        tests:
+          - not_null
+          - is_greater_or_equal_to_zero
+
+  - name: stg__regions
+    description: 'Regions cleaned/transformed data'
+    columns:
+      - name: region_id
+        tests:
+          - not_null
+          - unique
+      
+      - name: region_name
+        tests:
+          - not_null
+          - unique
+          - accepted_values:
+              values: ['North', 'South', 'East', 'West', 'Central']
