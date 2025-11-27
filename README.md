@@ -2,10 +2,16 @@
 A practise project to build an ecommerce data warehouse using airbyte, dbt and postgres.
 Raw data ingestion from bigquery using airbyte and transforming data with dbt. Creating facts, dimensions and marts. Destination is local postgres. 
 
-## Getting Started
+## Install dbt (Windows)  
 - Install python 3+
 - Download dbt `pip install dbt`
 - Verify installation `dbt --version`
+
+## Install dbt (Ubuntu) in virtual env 
+- sudo apt install python3-venv -y
+- python3 -m venv dbt-env
+- source dbt-env/bin/activate
+- pip install dbt-postgres
 
 - Specify the database details (postgres) in profiles.yml
 - Run `dbt deps` in the terminal to install dependencies
