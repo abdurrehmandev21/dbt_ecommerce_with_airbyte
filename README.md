@@ -1,5 +1,6 @@
 # Datawarehouse Project using Dbt
-A practise project to build an ecommerce data warehouse using dbt and postgres
+A practise project to build an ecommerce data warehouse using airbyte, dbt and postgres.
+Raw data ingestion from bigquery using airbyte and transforming data with dbt. Creating facts, dimensions and marts. Destination is local postgres. 
 
 ## Getting Started
 - Install python 3+
@@ -8,7 +9,6 @@ A practise project to build an ecommerce data warehouse using dbt and postgres
 
 - Specify the database details (postgres) in profiles.yml
 - Run `dbt deps` in the terminal to install dependencies
-- Run `dbt seed` to create raw tables with dummy data loaded via csv in a schema named `raw`
 
 ### Using the project
 
