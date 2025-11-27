@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: bigquery_extracted_data
     description: 'Contains ecommerce raw data fetched from bigquery via Airbyte'
-    database: dbt
+    database: dbt_ecommerce_with_airbyte
     schema: bigquery_extracted_data
     tables:
       - name: raw_customers
